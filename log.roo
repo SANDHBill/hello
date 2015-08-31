@@ -1,0 +1,12 @@
+// Spring Roo 1.3.1.RELEASE [rev f4f5256] log opened at 2015-07-30 19:58:27
+hint
+project --topLevelPackage com.sandh
+jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY
+entity jpa --class ~.domain.Timer --testAutomatically
+field string --fieldName message --notNull
+hint web mvc 
+web mvc setup
+web mvc all --package ~.web
+selenium test --controller ~.web.TimerController
+security setup
+perform tests
