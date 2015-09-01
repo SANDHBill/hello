@@ -48,18 +48,40 @@ public class BillUtility {
         Item[] items = bill.getItems();
         List itemList = Arrays.asList(items);
         double sum =
-        itemList.stream().mapToDouble(x -> ((Item)x).getPrice()).sum();
+        itemList.stream().mapToDouble(x -> ((Item) x).getPrice()).sum();
         return sum;
     }
 
     public Map calculateTotalPerPerson(Bill bill) {
         Item[] items = bill.getItems();
         List<Item> itemList = Arrays.asList(items);
-        Map x = itemList.stream()
+
+
+        List<Item> items2 = new ArrayList<Item>();
+
+        for (int i = 0; i < itemList.size(); i++) {
+            List<String> owners = itemList.get(i).getOwners();
+            double price = itemList.get(i).getPrice() / owners.size();
+            String itemname = itemList.get(i).getName();
+            for (String owner : owners) {
+                Item item = new Item(itemname,price,owner);
+                items2.add(item);
+            }
+        }
+
+        Map x = items2.stream()
                 .collect(Collectors.groupingBy(item -> item.getOwners().isEmpty() ? NOT_OWNED : item.getOwners().get(0),
                         Collectors.summingDouble(item -> item.getPrice())));
-        x.putIfAbsent(NOT_OWNED,0.0);
+        x.putIfAbsent(NOT_OWNED, 0.0);
+
         return x;
         //test pullrequest
     }
 }
+
+
+
+
+
+
+
