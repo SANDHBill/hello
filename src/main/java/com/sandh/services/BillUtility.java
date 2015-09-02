@@ -23,25 +23,14 @@ public class BillUtility {
         }
     }
 
-    public void claimItemMultiple(Bill bill, String itemName, String... owners) {
-        Boolean itemFound = false;
+    public void claimItemMultiple(Bill bill, UUID id, String... owners) {
         int n = owners.length;
         if ( n < 1) return;
         for(Item item : bill.getItems())
-        {
-            if (itemName.equals(item.getName()))
-            {
-                itemFound = true;
-                if (item.getOwners().isEmpty()) {
-                    double price = item.getPrice() / n;
-                    bill.deleteItem(item);
-                    for (int i = 0; i < n; i++) {
-                        bill.addItem(new Item(itemName + "_" + String.valueOf(i + 1), price, owners[i]));
-                    }
-                    return;
-                }
+            if (item.getId().equals(id)) {
+                for (String owner : owners) item.addOwner(owner);
+                return;
             }
-        }
     }
     public double calculateTotal(Bill bill) {
         if(bill.getNumberItems() == 0) return 0;
@@ -62,7 +51,8 @@ public class BillUtility {
                         Map.Entry::getKey, Collectors.summingDouble(Map.Entry::getValue)
                 ));
 
-        x.putIfAbsent(NOT_OWNED, 0.0);
+        double sumPaid = x.values().stream().mapToDouble(Double::doubleValue).sum();
+        x.putIfAbsent(NOT_OWNED, calculateTotal(bill) - sumPaid);
         return x;
         //test pullrequest
     }

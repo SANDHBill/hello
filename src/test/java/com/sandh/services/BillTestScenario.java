@@ -67,7 +67,7 @@ public class BillTestScenario {
         UUID ghormehId = bill.addItem(GHORMEH, GHORMEH_PRICE);
         billUtility.claimItem(bill,koobidehId, HAMED);
         billUtility.claimItem(bill,joojehId, SHAHRAM);
-        billUtility.claimItemMultiple(bill,GHORMEH, SHAHRAM, HAMED);
+        billUtility.claimItemMultiple(bill,ghormehId, SHAHRAM, HAMED);
 
         scenario.setBill(bill);
         scenario.addAssert(SHAHRAM, 11.5);
