@@ -67,7 +67,7 @@ public class BillTestScenario {
         UUID ghormehId = bill.addItem(GHORMEH, GHORMEH_PRICE);
         billUtility.claimItem(bill,koobidehId, HAMED);
         billUtility.claimItem(bill,joojehId, SHAHRAM);
-        billUtility.claimItemMultiple(bill,ghormehId, SHAHRAM, HAMED);
+        billUtility.claimItemMultiple(bill, ghormehId, SHAHRAM, HAMED);
 
         scenario.setBill(bill);
         scenario.addAssert(SHAHRAM, 11.5);
@@ -77,6 +77,31 @@ public class BillTestScenario {
         return scenario;
     }
 
+    public BillScenario sameItemnameOwnedbyDifferentGroups()
+    {
+        BillScenario scenario = new BillScenario();
+        Bill bill = new Bill();
+
+        UUID koobidehId1 = bill.addItem(KOOBIDEH, KOOBIDEH_PRICE);
+        UUID koobidehId2 = bill.addItem(KOOBIDEH, KOOBIDEH_PRICE);
+        UUID joojehId = bill.addItem(JOOJEH, JOOJEH_PRICE);
+        UUID ghormehId = bill.addItem(GHORMEH, GHORMEH_PRICE);
+
+        billUtility.claimItemMultiple(bill, koobidehId1, HAMED, ROSHANAK);
+        billUtility.claimItem(bill, koobidehId2, SHAHRAM);
+        billUtility.claimItem(bill, joojehId, SHAHRAM);
+        billUtility.claimItemMultiple(bill, ghormehId, SHAHRAM, HAMED);
+        billUtility.claimItem(bill, koobidehId2, AVA);
+
+        scenario.setBill(bill);
+        scenario.addAssert(SHAHRAM, JOOJEH_PRICE + .5 * GHORMEH_PRICE + .5 * KOOBIDEH_PRICE);
+        scenario.addAssert(HAMED, .5 * GHORMEH_PRICE + .5 * KOOBIDEH_PRICE);
+        scenario.addAssert(ROSHANAK, .5 * KOOBIDEH_PRICE);
+        scenario.addAssert(AVA, .5 * KOOBIDEH_PRICE);
+        scenario.addAssert(BillUtility.NOT_OWNED, 0.0);
+
+        return scenario;
+    }
 
     public class BillScenario {
         private Bill bill;

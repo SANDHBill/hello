@@ -10,7 +10,6 @@ import java.util.Map;
  */
 public class BillUtilityTest {
     public static final String SHOULD_PAY = " should pay ";
-    public static final String NOT_OWNED_IS = "Not owned is ";
     private final BillTestScenario billTestScenario = new BillTestScenario();
     private BillUtility billUtility = new BillUtility();
 
@@ -48,6 +47,12 @@ public class BillUtilityTest {
     @Test
     public void ownedByHamedLaterSharedByShahram(){
         BillTestScenario.BillScenario billScenario = billTestScenario.ownedByHamedLaterSharedByShahram();
+        runAsserts(billScenario);
+    }
+
+    @Test
+      public void sameItemnameOwnedbyDifferentGroups(){
+        BillTestScenario.BillScenario billScenario = billTestScenario.sameItemnameOwnedbyDifferentGroups();
         runAsserts(billScenario);
     }
 }
