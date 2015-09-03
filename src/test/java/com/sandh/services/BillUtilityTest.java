@@ -39,6 +39,12 @@ public class BillUtilityTest {
     }
 
     @Test
+    public void simpleBillDisclaim(){
+        BillTestScenario.BillScenario billScenario = billTestScenario.simpleBillDisclaim();
+        runAsserts(billScenario);
+    }
+
+    @Test
     public void splitSharedBill(){
         BillTestScenario.BillScenario billScenario = billTestScenario.simpleBillShared();
         runAsserts(billScenario);

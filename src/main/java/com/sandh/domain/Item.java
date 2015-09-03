@@ -57,4 +57,8 @@ public class Item {
     public void addOwner(String ownerName) {
         owners.add(ownerName);
     }
+
+    public boolean removeOwner(String name) {
+        return owners.remove(name);
+    }
 }

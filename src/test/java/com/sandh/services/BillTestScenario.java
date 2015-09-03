@@ -42,6 +42,26 @@ public class BillTestScenario {
         return scenario;
     }
 
+    public BillScenario simpleBillDisclaim() {
+        BillScenario scenario = new BillScenario();
+        Bill bill = new Bill();
+
+        UUID koobidehId = bill.addItem(KOOBIDEH, KOOBIDEH_PRICE);
+        UUID joojehId = bill.addItem(JOOJEH, JOOJEH_PRICE);
+        UUID ghormehId = bill.addItem(GHORMEH, GHORMEH_PRICE);
+        billUtility.claimItem(bill, koobidehId, HAMED);
+        billUtility.claimItem(bill, joojehId, SHAHRAM);
+        billUtility.claimItem(bill, ghormehId, SHAHRAM);
+        billUtility.disclaimItem(bill, ghormehId, SHAHRAM);
+
+        scenario.setBill(bill);
+        scenario.addAssert(SHAHRAM, JOOJEH_PRICE);
+        scenario.addAssert(HAMED, KOOBIDEH_PRICE);
+        scenario.addAssert(BillUtility.NOT_OWNED, GHORMEH_PRICE);
+
+        return scenario;
+    }
+
     public BillScenario ownedByHamedLaterSharedByShahram() {
 
         BillScenario scenario = new BillScenario();
@@ -70,8 +90,8 @@ public class BillTestScenario {
         billUtility.claimItemMultiple(bill, ghormehId, SHAHRAM, HAMED);
 
         scenario.setBill(bill);
-        scenario.addAssert(SHAHRAM, 11.5);
-        scenario.addAssert(HAMED, 14.5);
+        scenario.addAssert(SHAHRAM, JOOJEH_PRICE + .5 * GHORMEH_PRICE);
+        scenario.addAssert(HAMED, KOOBIDEH_PRICE + .5 * GHORMEH_PRICE);
         scenario.addAssert(BillUtility.NOT_OWNED, 0.0);
 
         return scenario;

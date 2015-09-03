@@ -23,6 +23,12 @@ public class BillUtility {
         }
     }
 
+    public boolean disclaimItem(Bill bill, UUID id, String name) {
+        for (Item item : bill.getItems())
+            if (id.equals(item.getId())) return item.removeOwner(name);
+        return false;
+    }
+
     public void claimItemMultiple(Bill bill, UUID id, String... owners) {
         int n = owners.length;
         if ( n < 1) return;
