@@ -17,7 +17,8 @@ public class BillUtilityTest {
     public void calculateTotalTest() {
         BillTestScenario.BillScenario billScenario = billTestScenario.simpleBill();
         double total = billUtility.calculateTotal(billScenario.getBill());
-        Assert.assertEquals("Total should be ",26,total,0.00001);
+        double expectedTotal = BillTestScenario.KOOBIDEH_PRICE + BillTestScenario.JOOJEH_PRICE + BillTestScenario.GHORMEH_PRICE;
+        Assert.assertEquals("Total should be ", expectedTotal, total, 0.00001);
     }
 
     private void runAsserts(BillTestScenario.BillScenario billScenario)
